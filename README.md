@@ -4,7 +4,7 @@ Ensure your data conforms (a shameless ripoff of [Joi](https://github.com/hapijs
 
 ## Things to do:
 
-[] Add more to README
-[] Add comments
-[] Add tests
-[] Refactor some code to not be nasty
+- [ ] Add more to README
+- [ ] Add comments
+- [ ] Add tests
+- [ ] Refactor some code to not be nasty
