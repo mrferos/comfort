@@ -1,0 +1,22 @@
+{
+    "name": "mrferos/comfort",
+    "description": "Data validation library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Comfort\\": "src/"
+        },
+        "files": [
+            "functions.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Andres Galindo",
+            "email": "me@andresgalindo.us"
+        }
+    ],
+    "require": {
+        "jeremykendall/php-domain-parser": "~2.0"
+    }
+}
