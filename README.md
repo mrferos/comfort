@@ -33,7 +33,7 @@ $stateArray = array(
     /** taken out for brevity */
 );
 
-$underwritingSchema = cmf()->json()->keys([
+$registrationSchema = cmf()->json()->keys([
     "first_name" => cmf()->string()->required()->alpha()->min(1),
     "last_name"  => cmf()->string()->required()->alpha()->min(1),
     "email" => cmf()->string()->email(),
@@ -51,7 +51,7 @@ $underwritingSchema = cmf()->json()->keys([
     ])
 ]);
 
-$data = $underwritingSchema($json);
+$data = $registrationSchema($json);
 var_dump($data);
 ```
 
