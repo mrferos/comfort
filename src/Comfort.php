@@ -14,6 +14,13 @@ use Comfort\Validator\StringValidator;
  */
 class Comfort
 {
+    /**
+     * Returns validator for given data type
+     *
+     * @param $name
+     * @param $arguments
+     * @return ArrayValidator|JsonValidator|StringValidator
+     */
     public function __call($name, $arguments)
     {
         switch($name) {
@@ -24,10 +31,5 @@ class Comfort
             case 'json':
                 return new JsonValidator($this);
         }
-    }
-
-    public function ref($ref)
-    {
-
     }
 }
