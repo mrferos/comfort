@@ -18,6 +18,12 @@ class StringValidator extends AbstractValidator
                 'message' => '%s is not alpha numeric'
             ]
         ];
+
+        $this->add(function($value, $nameKey) {
+            if (!is_string($value)) {
+                $this->createError('string.type', $value, $nameKey);
+            }
+        });
     }
 
     /**
