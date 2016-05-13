@@ -10,7 +10,7 @@
 	- [`string.email()`](#stringemail)
 	- [`string.ip()`](#stringip)
 	- [`string.uri($options)`](#stringurioptions)
-	- [`string. replace($pattern, $replacement)`](#stringreplacepattern-replacement)
+	- [`string.replace($pattern, $replacement)`](#stringreplacepattern-replacement)
 
 #### string()
 #### string.token
