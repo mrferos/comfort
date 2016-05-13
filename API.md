@@ -12,11 +12,15 @@
     - [`string.ip()`](#stringip)
     - [`string.uri($options)`](#stringurioptions)
     - [`string.replace($pattern, $replacement)`](#stringreplacepattern-replacement)
-
+- [`date`](#date)
+    - [`date.iso()`](#dateiso)
+    - [`date.format()`](#dateformatformat)
+    - [`date.max()`](#datemaxmax)
+    - [`date.min()`](#dateminmin)
+    - [`date.timestamp()`](#datetimestamp)
 
 #### string()
 Validates data is a string
-
 ```php
 $schema = cmf()->string();
 ```
@@ -69,4 +73,34 @@ $schema = cmf()->string()->uri($options);
 Replace matched portion of string
 ```php
 $schema = cmf()->string()->replace('/\d+/', 'foo');
+```
+#### date()
+Validates data is a date
+```php
+$schema = cmf()->date();
+```
+#### date.iso()
+Validates data confirms to ISO 8601 standard
+```php
+$schema = cmf()->date()->iso();
+```
+#### date.format($format)
+Validates data confirms to provided format see [php docs](http://php.net/manual/en/function.date.php#format)
+```php
+$schema = cmf()->date()->format('Y-m-d');
+```
+#### date.max($max)
+Validates given date is not past provided `$max`
+```php
+$schema = cmf()->date()->max('2016-01-01');
+```
+#### date.min($min)
+Validates given date is not before provided `$min`
+```php
+$schema = cmf()->date()->min('2016-01-01');
+```
+#### date.timestamp()
+Validates date is a unix timestamp
+```php
+$schema = cmf()->date()->timestamp();
 ```
