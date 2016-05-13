@@ -1,6 +1,8 @@
 <?php
 namespace Comfort\Exception;
 
+use Exception;
+
 class ValidationException extends DiscomfortException
 {
     /**
