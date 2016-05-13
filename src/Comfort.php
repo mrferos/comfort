@@ -20,6 +20,7 @@ class Comfort
      * @param $name
      * @param $arguments
      * @return ArrayValidator|JsonValidator|StringValidator
+     * @throws \RuntimeException
      */
     public function __call($name, $arguments)
     {
@@ -30,6 +31,8 @@ class Comfort
                 return new StringValidator($this);
             case 'json':
                 return new JsonValidator($this);
+            default:
+                throw new \RuntimeException('Unsupported data type');
         }
     }
 }
