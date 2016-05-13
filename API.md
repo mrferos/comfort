@@ -1,6 +1,6 @@
 # Comfort Validation
 - [`string`](#string)
-	- [`string.token()`]
+	- [`string.token()`](#stringtoken)
 	- [`string.min($min)`]
 	- [`string.max($max)`]
 	- [`string.matches($regex)`]
