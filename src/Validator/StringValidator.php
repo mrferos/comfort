@@ -20,6 +20,19 @@ class StringValidator extends AbstractValidator
         ];
     }
 
+    public function token()
+    {
+        $this->add(function($value, $nameKey) {
+            preg_match('/[a-zA-Z0-9_]+/', $value, $matches);
+            if (!(isset($matches[0]) && ($matches[0] == $value))) {
+                $this->createError('string.token', $value, $nameKey);
+            }
+
+        });
+
+        return $this;
+    }
+
     public function length($min = null, $max = null)
     {
         $this->add(function($value, $nameKey) use ($min, $max) {
