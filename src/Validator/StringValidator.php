@@ -38,15 +38,13 @@ class StringValidator extends AbstractValidator
      */
     public function token()
     {
-        $this->add(function($value, $nameKey) {
+        return $this->add(function($value, $nameKey) {
             preg_match('/[a-zA-Z0-9_]+/', $value, $matches);
             if (!(isset($matches[0]) && ($matches[0] == $value))) {
                 $this->createError('string.token', $value, $nameKey);
             }
 
         });
-
-        return $this;
     }
 
     /**
@@ -57,13 +55,11 @@ class StringValidator extends AbstractValidator
      */
     public function min($min)
     {
-        $this->add(function($value, $nameKey) use ($min) {
+        return $this->add(function($value, $nameKey) use ($min) {
             if (strlen($value) < $min) {
                 $this->createError('string.min', $value, $nameKey);
             }
         });
-
-        return $this;
     }
 
     /**
@@ -74,13 +70,11 @@ class StringValidator extends AbstractValidator
      */
     public function max($max)
     {
-        $this->add(function($value, $nameKey) use ($max) {
+        return $this->add(function($value, $nameKey) use ($max) {
             if (strlen($value) > $max) {
                 return $this->createError('string.max', $value, $nameKey);
             }
         });
-
-        return $this;
     }
 
     /**
@@ -91,13 +85,11 @@ class StringValidator extends AbstractValidator
      */
     public function matches($regex)
     {
-        $this->add(function($value, $nameKey) use ($regex) {
+        return $this->add(function($value, $nameKey) use ($regex) {
             if (!preg_match($regex, $value)) {
                 return $this->createError('string.matches', $value, $nameKey);
             }
         });
-
-        return $this;
     }
 
     /**
@@ -107,13 +99,11 @@ class StringValidator extends AbstractValidator
      */
     public function length($length)
     {
-        $this->add(function($value, $nameKey) use ($length) {
+        return $this->add(function($value, $nameKey) use ($length) {
             if (strlen($value) != $length) {
                 return $this->createError('string.length', $value, $nameKey);
             }
         });
-
-        return $this;
     }
 
     /**
@@ -123,13 +113,11 @@ class StringValidator extends AbstractValidator
      */
     public function alphanum()
     {
-        $this->add(function($value, $nameKey) {
+        return $this->add(function($value, $nameKey) {
             if (!ctype_alnum($value)) {
                 return $this->createError('string.alphanum', $value, $nameKey);
             }
         });
-
-        return $this;
     }
 
     /**
@@ -139,13 +127,11 @@ class StringValidator extends AbstractValidator
      */
     public function alpha()
     {
-        $this->add(function($value, $nameKey) {
+        return $this->add(function($value, $nameKey) {
             if (!ctype_alpha($value)) {
                 return $this->createError('string.alpha', $value, $nameKey);
             }
         });
-
-        return $this;
     }
 
     /**
@@ -155,13 +141,11 @@ class StringValidator extends AbstractValidator
      */
     public function email()
     {
-        $this->add(function($value, $nameKey) {
+        return $this->add(function($value, $nameKey) {
             if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
                 return $this->createError('string.email', $value, $nameKey);
             }
         });
-
-        return $this;
     }
 
     /**
@@ -171,13 +155,11 @@ class StringValidator extends AbstractValidator
      */
     public function ip()
     {
-        $this->add(function($value, $nameKey) {
+        return $this->add(function($value, $nameKey) {
             if (!filter_var($value, FILTER_VALIDATE_IP)) {
                 return $this->createError('string.ip', $value, $nameKey);
             }
         });
-
-        return $this;
     }
 
     /**
@@ -188,14 +170,12 @@ class StringValidator extends AbstractValidator
      */
     public function uri(array $options = [])
     {
-        $this->add(function ($value) use($options) {
+        return $this->add(function ($value) use($options) {
             $method = new UriMethod($options);
             if (!$method($value)) {
                 return $this->createError('string.uri', $value, $nameKey);
             }
         });
-
-        return $this;
     }
 
 
@@ -208,10 +188,8 @@ class StringValidator extends AbstractValidator
      */
     public function replace($pattern, $replacement)
     {
-        $this->add(function($value, $nameKey) use($pattern, $replacement) {
+        return $this->add(function($value, $nameKey) use($pattern, $replacement) {
             return preg_replace($pattern, $replacement, $value);
         });
-
-        return $this;
     }
 }

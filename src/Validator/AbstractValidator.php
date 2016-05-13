@@ -121,10 +121,13 @@ abstract class AbstractValidator
      * Add adhoc validator to validation stack
      *
      * @param callable $validation
+     * @return $this
      */
     public function add(callable $validation)
     {
         $this->validationStack[] = $validation;
+
+        return $this;
     }
 
     /**

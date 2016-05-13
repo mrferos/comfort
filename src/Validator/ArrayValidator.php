@@ -17,7 +17,7 @@ class ArrayValidator extends AbstractValidator
 
     public function keys(array $definition)
     {
-        $this->add(function(&$value) use ($definition) {
+        return $this->add(function(&$value) use ($definition) {
             /**
              * @var string $key
              * @var AbstractValidator $validator
@@ -37,7 +37,5 @@ class ArrayValidator extends AbstractValidator
 
             return $value;
         });
-
-        return $this;
     }
 }
