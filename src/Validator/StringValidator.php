@@ -70,8 +70,8 @@ class StringValidator extends AbstractValidator
      */
     public function max($max)
     {
-        $this->add(function($value, $nameKey) use ($min) {
-            if (strlen($value) > $min) {
+        $this->add(function($value, $nameKey) use ($max) {
+            if (strlen($value) > $max) {
                 return $this->createError('string.max', $value, $nameKey);
             }
         });
