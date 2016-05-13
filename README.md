@@ -54,6 +54,9 @@ $registrationSchema = cmf()->json()->keys([
 $data = $registrationSchema($json);
 var_dump($data);
 ```
+# API
+
+See API reference: [API.md](API.md)
 
 ## Things to do:
 
@@ -61,3 +64,4 @@ var_dump($data);
 - [ ] Add comments
 - [ ] Add tests
 - [ ] Refactor some code to not be nasty
+- [ ] Be original enough to not ripoff all of Joi's documentation format.
