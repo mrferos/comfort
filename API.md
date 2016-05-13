@@ -12,6 +12,7 @@
 	- [`string.uri($options)`](#stringurioptions)
 	- [`string. replace($pattern, $replacement)`](#stringreplacepattern-replacement)
 
+#### string()
 #### string.token
 #### string.min($min)
 #### string.max($max)
