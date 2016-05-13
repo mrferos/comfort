@@ -1,6 +1,6 @@
 # Comfort
 
-PHP style object schema validation, [Joi](https://github.com/hapijs/joi))-style.
+PHP style object schema validation, [Joi](https://github.com/hapijs/joi)-style.
 
 # Example
 ```php
