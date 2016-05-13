@@ -44,6 +44,13 @@ abstract class AbstractValidator
         $this->comfort = $comfort;
     }
 
+    /**
+     * Execute validation stack
+     *
+     * @param mixed $value
+     * @param null|string $key
+     * @return bool|ValidationError
+     */
     public function __invoke($value, $key = null)
     {
         try {
@@ -67,6 +74,11 @@ abstract class AbstractValidator
         return call_user_func_array([$this->comfort, $name], $arguments);
     }
 
+    /**
+     * Declare the value as being required
+     *
+     * @return $this
+     */
     public function required()
     {
         $this->add(function($value) {
@@ -83,11 +95,22 @@ abstract class AbstractValidator
 
     }
 
-    protected function add(callable $validation)
+    /**
+     * Add adhoc validator to validation stack
+     *
+     * @param callable $validation
+     */
+    public function add(callable $validation)
     {
         $this->validationStack[] = $validation;
     }
 
+    /**
+     * On validation failure whether to return false or a validation error
+     *
+     * @param bool $val
+     * @return $this
+     */
     public function toBool($val = true)
     {
         $this->toBool = (boolean)$val;
@@ -95,6 +118,15 @@ abstract class AbstractValidator
         return $this;
     }
 
+    /**
+     * Create an error with a formatted message
+     *
+     * @param string $key
+     * @param null|string $value
+     * @param null|string $valueKey
+     * @throws DiscomfortException
+     * @throws ValidationException
+     */
     protected function createError($key, $value = null, $valueKey = null)
     {
         if (!array_key_exists($key, $this->errorHandlers)) {
