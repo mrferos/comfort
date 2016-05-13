@@ -108,6 +108,8 @@ class StringValidator extends AbstractValidator
                 return $this->createError('string.length', $value, $nameKey);
             }
         });
+
+        return $this;
     }
 
     /**
