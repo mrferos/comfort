@@ -26,6 +26,10 @@ abstract class AbstractValidator
      */
     private $toBool = true;
     /**
+     * @var bool
+     */
+    private $optional = true;
+    /**
      * @var array
      */
     protected $errorHandlers = [
@@ -53,6 +57,10 @@ abstract class AbstractValidator
      */
     public function __invoke($value, $key = null)
     {
+        if (is_null($value) && $this->optional) {
+            return;
+        }
+
         try {
             reset($this->validationStack);
 
@@ -85,11 +93,26 @@ abstract class AbstractValidator
      */
     public function required()
     {
-        $this->add(function($value) {
+        $this->optional = false;
+
+        $this->add(function($value, $nameKey) {
             if (is_null($value)) {
-                $this->createError('required', $value);
+                $this->createError('required', $value, $nameKey);
             }
         });
+
+        return $this;
+    }
+
+
+    /**
+     * Declare data is optional
+     *
+     * @return $this
+     */
+    public function optional()
+    {
+        $this->optional = true;
 
         return $this;
     }

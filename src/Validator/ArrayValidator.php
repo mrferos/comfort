@@ -18,13 +18,20 @@ class ArrayValidator extends AbstractValidator
     public function keys(array $definition)
     {
         $this->add(function(&$value) use ($definition) {
-            foreach ($value as $key => $val) {
-                if (array_key_exists($key, $definition)) {
-                    $validator = $definition[$key]->toBool(false);
-                    $value[$key] = $validator($val, $key);
-                    if ($value[$key] instanceof ValidationError) {
-                        throw new ValidationException($value[$key]->getKey(), $value[$key]->getMessage());
-                    }
+            /**
+             * @var string $key
+             * @var AbstractValidator $validator
+             */
+            foreach ($definition as $key => $validator) {
+                $validator->toBool(false);
+                $validatorValue = isset($value[$key]) ? $value[$key] : null;
+                $result = $validator($validatorValue, $key);
+                if ($result instanceof ValidationError) {
+                    throw new ValidationException($result->getKey(), $result->getMessage());
+                }
+
+                if (isset($value[$key])) {
+                    $value[$key] = $result;
                 }
             }
 
