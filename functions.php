@@ -7,5 +7,10 @@
  */
 function cmf()
 {
-    return (new \Comfort\Factory())->newInstance();
+    static $factory;
+    if ($factory === null) {
+        $factory = new \Comfort\Factory();
+    }
+
+    return $factory->newInstance();
 }
