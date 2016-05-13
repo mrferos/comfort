@@ -57,6 +57,7 @@ abstract class AbstractValidator
             reset($this->validationStack);
 
             do {
+                /** @var callable $validator */
                 $validator = current($this->validationStack);
                 $retVal = $validator($value, $key);
                 $value = $retVal === null ? $value : $retVal;
@@ -86,7 +87,7 @@ abstract class AbstractValidator
     {
         $this->add(function($value) {
             if (is_null($value)) {
-                return $this->createError('required', $value);
+                $this->createError('required', $value);
             }
         });
 
@@ -131,7 +132,7 @@ abstract class AbstractValidator
                 $is->toBool(true);
 
                 if (!isset($condition['then'])) {
-                    $this->createError('alternatives.missing_then', $validationStack, $nameKey);
+                    $this->createError('alternatives.missing_then', $value, $nameKey);
                 }
 
                 if ($is($value)) {
