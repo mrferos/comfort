@@ -20,6 +20,10 @@ class StringValidator extends AbstractValidator
         ];
 
         $this->add(function($value, $nameKey) {
+            if (is_null($value)) {
+                return;
+            }
+
             if (!is_string($value)) {
                 $this->createError('string.type', $value, $nameKey);
             }
