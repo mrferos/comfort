@@ -1,16 +1,16 @@
 # Comfort Validation
 - [`string`](#string)
 	- [`string.token()`](#stringtoken)
-	- [`string.min($min)`]
-	- [`string.max($max)`]
-	- [`string.matches($regex)`]
-	- [`string.length($length)`]
-	- [`string.alphanum()`]
-	- [`string.alpha()`]
-	- [`string.email()`]
-	- [`string.ip()`]
-	- [`string.uri($options)`]
-	- [`string. replace($pattern, $replacement)1`]
+	- [`string.min($min)`](#stringminmin)
+	- [`string.max($max)`](#stringmaxmax)
+	- [`string.matches($regex)`](#stringmatchesregex)
+	- [`string.length($length)`](#stringlengthlength)
+	- [`string.alphanum()`](#stringalphanum)
+	- [`string.alpha()`](#stringalpha)
+	- [`string.email()`](#stringemail)
+	- [`string.ip()`](#stringip)
+	- [`string.uri($options)`](#stringurioptions)
+	- [`string. replace($pattern, $replacement)`](#stringreplacepattern-replacement)
 
 #### string.token
 #### string.min($min)
