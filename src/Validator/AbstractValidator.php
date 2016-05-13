@@ -54,10 +54,13 @@ abstract class AbstractValidator
     public function __invoke($value, $key = null)
     {
         try {
-            foreach ($this->validationStack as $validator) {
+            reset($this->validationStack);
+
+            do {
+                $validator = current($this->validationStack);
                 $retVal = $validator($value, $key);
                 $value = $retVal === null ? $value : $retVal;
-            }
+            } while (next($this->validationStack));
 
             return $value;
         }catch(ValidationException $validationException) {
@@ -90,11 +93,6 @@ abstract class AbstractValidator
         return $this;
     }
 
-    public function defaultValue($value)
-    {
-
-    }
-
     /**
      * Add adhoc validator to validation stack
      *
@@ -114,6 +112,53 @@ abstract class AbstractValidator
     public function toBool($val = true)
     {
         $this->toBool = (boolean)$val;
+
+        return $this;
+    }
+
+    /**
+     * Provide conditional validation
+     *
+     * @param $conditions
+     * @return $this
+     */
+    public function alternatives($conditions)
+    {
+        $this->add(function($value, $nameKey) use($conditions) {
+            foreach ($conditions as $condition) {
+
+                $is = $condition['is'];
+                $is->toBool(true);
+
+                if (!isset($condition['then'])) {
+                    $this->createError('alternatives.missing_then', $validationStack, $nameKey);
+                }
+
+                if ($is($value)) {
+                    if ($condition['then'] instanceof AbstractValidator) {
+                        $reflObject = new \ReflectionObject($condition['then']);
+                        $validationStack = $reflObject->getProperty('validationStack');
+                        $validationStack->setAccessible(true);
+                        foreach ($validationStack->getValue($condition['then']) as $validator) {
+                            $this->validationStack[] = $validator;
+                        }
+                    } elseif (!is_null($condition['then'])) {
+                        return $condition['then'];
+                    }
+                } elseif (isset($condition['else'])) {
+                    if ($condition['else'] instanceof AbstractValidator) {
+                        $reflObject = new \ReflectionObject($condition['else']);
+                        $validationStack = $reflObject->getProperty('validationStack');
+                        $validationStack->setAccessible(true);
+                        foreach ($validationStack->getValue($condition['else']) as $validator) {
+                            $this->validationStack[] = $validator;
+                        }
+                    } elseif (!is_null($condition['else'])) {
+                        return $condition['else'];
+                    }
+                }
+            }
+        });
 
         return $this;
     }
