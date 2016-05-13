@@ -12,7 +12,7 @@ class StringValidator extends AbstractValidator
 
         $this->errorHandlers += [
             'string.length' => [
-                'message' => '%s is not long enough'
+                'message' => '%s does not match exactly length'
             ],
             'string.alpha' => [
                 'message' => '%s is not alpha numeric'
