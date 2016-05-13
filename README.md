@@ -1,6 +1,6 @@
 # Comfort
 
-Ensure your data conforms (a shameless ripoff of [Joi](https://github.com/hapijs/joi)).
+PHP style object schema validation, [Joi](https://github.com/hapijs/joi))-style.
 
 # Example
 ```php
