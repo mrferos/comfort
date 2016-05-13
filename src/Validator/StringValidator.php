@@ -20,6 +20,12 @@ class StringValidator extends AbstractValidator
         ];
     }
 
+    /**
+     * Validate the string is a token containing only
+     * the character set [a-zA-Z0-9_]
+     *
+     * @return $this
+     */
     public function token()
     {
         $this->add(function($value, $nameKey) {
@@ -33,36 +39,46 @@ class StringValidator extends AbstractValidator
         return $this;
     }
 
-    public function length($min = null, $max = null)
+    /**
+     * Validate the string is atleast $min characters
+     *
+     * @param int $min
+     * @return $this
+     */
+    public function min($min)
     {
-        $this->add(function($value, $nameKey) use ($min, $max) {
-            switch (true) {
-                case !is_null($min) && !is_null($max):
-                    if (!(strlen($value) >= $min && strlen($value) <= $max)) {
-                        return $this->createError('string.length', $value, $nameKey);
-                    }
-
-                    break;
-                case !is_null($min):
-                    if (!(strlen($value) >= $min)) {
-                        return $this->createError('string.length', $value, $nameKey);
-                    }
-
-                    break;
-                case !is_null($max):
-                    if(!(strlen($value) <= $max)) {
-                        return $this->createError('string.length', $value, $nameKey);
-                    }
-
-                    break;
-                default:
-                    throw new \RuntimeException('$min and $max cannot both be null');
+        $this->add(function($value, $nameKey) use ($min) {
+            if (strlen($value) < $min) {
+                $this->createError('string.min', $value, $nameKey);
             }
         });
 
         return $this;
     }
 
+    /**
+     * Validate the string is atleast $max characters
+     *
+     * @param int $max
+     * @return $this
+     */
+    public function max($max)
+    {
+        $this->add(function($value, $nameKey) use ($min) {
+            if (strlen($value) > $min) {
+                return $this->createError('string.max', $value, $nameKey);
+            }
+        });
+
+        return $this;
+    }
+
+    /**
+     * Validate the string matches the provided $regex
+     *
+     * @param string $regex
+     * @return $this
+     */
     public function matches($regex)
     {
         $this->add(function($value, $nameKey) use ($regex) {
@@ -74,6 +90,25 @@ class StringValidator extends AbstractValidator
         return $this;
     }
 
+    /**
+     * Validate the string is _exactly_ $length
+     *
+     * @param int $length
+     */
+    public function length($length)
+    {
+        $this->add(function($value, $nameKey) use ($length) {
+            if (strlen($value) != $length) {
+                return $this->createError('string.length', $value, $nameKey);
+            }
+        });
+    }
+
+    /**
+     * Validate the string contains only alphanumeric characters
+     *
+     * @return $this
+     */
     public function alphanum()
     {
         $this->add(function($value, $nameKey) {
@@ -85,6 +120,11 @@ class StringValidator extends AbstractValidator
         return $this;
     }
 
+    /**
+     * Validate the string contains only alpha characters
+     *
+     * @return $this
+     */
     public function alpha()
     {
         $this->add(function($value, $nameKey) {
@@ -96,6 +136,11 @@ class StringValidator extends AbstractValidator
         return $this;
     }
 
+    /**
+     * Validate the string is an email
+     *
+     * @return $this
+     */
     public function email()
     {
         $this->add(function($value, $nameKey) {
@@ -107,6 +152,11 @@ class StringValidator extends AbstractValidator
         return $this;
     }
 
+    /**
+     * Validate the string is an IP
+     *
+     * @return $this
+     */
     public function ip()
     {
         $this->add(function($value, $nameKey) {
@@ -118,6 +168,12 @@ class StringValidator extends AbstractValidator
         return $this;
     }
 
+    /**
+     * Validate the URI is valid
+     *
+     * @param array $options
+     * @return $this
+     */
     public function uri(array $options = [])
     {
         $this->add(function ($value) use($options) {
@@ -130,28 +186,14 @@ class StringValidator extends AbstractValidator
         return $this;
     }
 
-    public function lowercase()
-    {
-        $this->add(function($value, $nameKey) {
-           if(!strtolower($value) == $value) {
-               return $this->createError('string.lowercase', $value, $nameKey);
-           }
-        });
 
-        return $this;
-    }
-
-    public function uppercase()
-    {
-        $this->add(function($value, $nameKey) {
-            if(!strtoupper($value) == $value) {
-                return $this->createError('string.uppercase', $value, $nameKey);
-            }
-        });
-
-        return $this;
-    }
-
+    /**
+     * Regex replace the pattern with given replacement
+     *
+     * @param string $pattern
+     * @param string $replacement
+     * @return $this
+     */
     public function replace($pattern, $replacement)
     {
         $this->add(function($value, $nameKey) use($pattern, $replacement) {
