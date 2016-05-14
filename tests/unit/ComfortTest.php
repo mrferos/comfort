@@ -25,7 +25,7 @@ class ComfortTest extends \PHPUnit_Framework_TestCase
 
     public function testGettingInvalidValidator()
     {
-        $this->expectException(RuntimeException::class);
+        $this->setExpectedException(RuntimeException::class);
 
         $comfort = new Comfort();
         $comfort->__call('eadsin', null);
