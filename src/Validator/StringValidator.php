@@ -170,9 +170,8 @@ class StringValidator extends AbstractValidator
      */
     public function uri(array $options = [])
     {
-        return $this->add(function ($value) use($options) {
-            $method = new UriMethod($options);
-            if (!$method($value)) {
+        return $this->add(function ($value, $nameKey) use($options) {
+            if (!filter_var($value, FILTER_VALIDATE_URL)) {
                 return $this->createError('string.uri', $value, $nameKey);
             }
         });
