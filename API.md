@@ -14,10 +14,16 @@
     - [`string.replace($pattern, $replacement)`](#stringreplacepattern-replacement)
 - [`date`](#date)
     - [`date.iso()`](#dateiso)
-    - [`date.format($format)`](#dateformatformat)
-    - [`date.max($max)`](#datemaxmax)
-    - [`date.min($min)`](#dateminmin)
+    - [`date.format()`](#dateformatformat)
+    - [`date.max()`](#datemaxmax)
+    - [`date.min()`](#dateminmin)
     - [`date.timestamp()`](#datetimestamp)
+- [`array`](#array)
+    - [`array.keys($definition)`](#arraydefinition)
+    - [`array.min($min)`](#arrayminmin)
+    - [`array.max($max)`](#arraymaxmax)
+    - [`array.length($length)`](#arraylengthlenght)
+    - [`array.unique()`](#arrayunique)
 
 #### string()
 Validates data is a string
@@ -103,4 +109,36 @@ $schema = cmf()->date()->min('2016-01-01');
 Validates date is a unix timestamp
 ```php
 $schema = cmf()->date()->timestamp();
+```
+#### array
+Validates data is an array
+```php
+$schema = cmf()->array();
+```
+#### array.keys($definition)
+Validates data is an array
+```php
+$schema = cmf()->array()->keys([
+	'first_name' => cmf()->string()->min(5)
+]);
+```
+#### array.min($min)
+Validates array has atleast `$min` elements
+```php
+$schema = cmf()->array()->min(5);
+```
+#### array.max($max)
+Validates array has at most `$max` elements
+```php
+$schema = cmf()->array()->max(20);
+```
+#### array.length($length)
+Validates array has a specific amount of elements, $length
+```php
+$schema = cmf()->array()->length(100);
+```
+#### array.unique()
+Validates data in array is unique (see [array_unique](http://php.net/manual/en/function.array-unique.php) for description of how _not_ unique elements are removed - result is then compared to original)
+```php
+$schema = cmf()->array();
 ```
