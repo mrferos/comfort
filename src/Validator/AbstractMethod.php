@@ -19,8 +19,9 @@ abstract class AbstractMethod
             }
 
             $method = 'set' . ucfirst($option);
-            if (!method_exists($this, $method))
-                throw new \InvalidArgumentException('Option ' . $optionName . ' is not accepted');
+            if (!method_exists($this, $method)) {
+                            throw new \InvalidArgumentException('Option ' . $optionName . ' is not accepted');
+            }
 
             call_user_func(array($this, $method), $value);
         }

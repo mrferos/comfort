@@ -2,7 +2,6 @@
 
 /**
  * @param $name
- * @param array $args
  * @return \Comfort\Comfort
  */
 function cmf()

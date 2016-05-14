@@ -2,7 +2,6 @@
 namespace Comfort\Validator;
 
 use Comfort\Comfort;
-use Comfort\Validator\StringValidator\UriMethod;
 
 class StringValidator extends AbstractValidator
 {
