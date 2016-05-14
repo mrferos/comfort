@@ -25,6 +25,29 @@
     - [`array.length($length)`](#arraylengthlenght)
     - [`array.unique()`](#arrayunique)
 
+_Note: the following methods are inherited bty all validators_
+#### required()
+Validates the data element is not null
+```php
+$schema = cmf()->string()->required();
+```
+#### alternatives($alternatives)
+Creates conditional validation or values
+```php
+$schema = cmf()->string()->alternatives([
+    [
+        'is' => cmf()->string()->length(2),
+        'then' => cmf()->string()->anyOf($stateAbbrCodes),
+        'else' => cmf()->string()->anyOf($stateLongCodes)
+    ],
+]);
+```
+#### anyOf($values)
+Validates given value is part of provided `$values` array
+```php
+$schema = cmf()->string()->anyOf($stateAbbrCodes);
+```
+
 #### string()
 Validates data is a string
 ```php
