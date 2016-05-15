@@ -1,5 +1,6 @@
 # Comfort
-
+![Travis-CI](https://api.travis-ci.org/mrferos/comfort.svg)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mrferos/comfort/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mrferos/comfort/?branch=master)
 PHP style object schema validation, [Joi](https://github.com/hapijs/joi)-style.
 
 # Example
