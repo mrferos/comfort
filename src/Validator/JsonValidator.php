@@ -19,7 +19,12 @@ class JsonValidator extends AbstractValidator
         });
     }
 
-
+    /**
+     * Apply rules to a given schema
+     *
+     * @param array $definition
+     * @return $this
+     */
     public function keys(array $definition)
     {
         return $this->add(function($value, $nameKey) use($definition) {
