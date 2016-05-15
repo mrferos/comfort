@@ -3,6 +3,11 @@ namespace Comfort\Validator;
 
 use Comfort\Comfort;
 
+/**
+ * Class JsonValidator
+ * @package Comfort\Validator
+ * @method $this array()
+ */
 class JsonValidator extends AbstractValidator
 {
     public function __construct(Comfort $comfort)
