@@ -20,6 +20,6 @@
         "jeremykendall/php-domain-parser": "~2.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.3"
+        "phpunit/phpunit": "^4.0"
     }
 }
