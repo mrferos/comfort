@@ -23,7 +23,7 @@ class UriMethod extends AbstractMethod
 
         try {
             $url = $parser->parseUrl($value);
-        }catch (\InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $e) {
             return false;
         }
 

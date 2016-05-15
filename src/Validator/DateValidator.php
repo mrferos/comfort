@@ -65,7 +65,7 @@ class DateValidator extends AbstractValidator
         return $this->add(function($value, $nameKey) {
             try {
                 new \DateTime('@' . $value);
-            }catch (\Exception $e) {
+            } catch (\Exception $e) {
                 return $this->createError('date.timestamp', $value, $nameKey);
             }
         });

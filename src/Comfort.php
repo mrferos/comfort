@@ -24,7 +24,7 @@ class Comfort
      */
     public function __call($name, $arguments)
     {
-        switch($name) {
+        switch ($name) {
             case 'array':
                 return new ArrayValidator($this);
             case 'string':
