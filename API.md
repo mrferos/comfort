@@ -24,7 +24,7 @@
     - [`array.max($max)`](#arraymaxmax)
     - [`array.length($length)`](#arraylengthlenght)
     - [`array.unique()`](#arrayunique)
-    - [`array.items`](#arrayitems)
+    - [`array.items()`](#arrayitems)
 
 _Note: the following methods are inherited bty all validators_
 #### required()
@@ -176,11 +176,11 @@ $schema = cmf()->array()->items(
 );
 
 /**
-Will match an array such as:
-[
-    [
-        'name' => 'John'
-    ]
-];
+ * Will match an array such as:
+ * [
+ *     [
+ *         'name' => 'John'
+ *     ]
+ * ];
 **/
 ```
