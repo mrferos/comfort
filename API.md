@@ -192,7 +192,7 @@ $schema = cmf()->array()->items(
 **/
 ```
 #### number()
-Validate data is a number
+**Note: This does _not_ validate the data type like the other methods due, only provides an entry point into the other number validators. To validata the numeric data types see the is<type> methods below**
 ```php
 $schema = cmf()->number();
 ```
