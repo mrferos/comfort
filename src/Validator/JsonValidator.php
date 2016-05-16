@@ -38,4 +38,19 @@ class JsonValidator extends AbstractValidator
             return $validation($decodedValue);
         });
     }
+
+    /**
+     * Apply a definition to items in a json structure
+     *
+     * @param AbstractValidator $definition
+     * @return $this
+     */
+    public function items(AbstractValidator $definition)
+    {
+        return $this->add(function($value, $nameKey) use($definition) {
+            $decodedValue = json_decode($value, true);
+            $validation = $this->array()->items($definition);
+            return $validation($decodedValue);
+        });
+    }
 }
