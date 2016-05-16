@@ -24,6 +24,7 @@
     - [`array.max($max)`](#arraymaxmax)
     - [`array.length($length)`](#arraylengthlenght)
     - [`array.unique()`](#arrayunique)
+    - [`array.items`](#arrayitems)
 
 _Note: the following methods are inherited bty all validators_
 #### required()
@@ -164,4 +165,22 @@ $schema = cmf()->array()->length(100);
 Validates data in array is unique (see [array_unique](http://php.net/manual/en/function.array-unique.php) for description of how _not_ unique elements are removed - result is then compared to original)
 ```php
 $schema = cmf()->array();
+```
+### array.items()
+Validates elements in array comply with a given schema
+```php
+$schema = cmf()->array()->items(
+    cmf()->array()->keys([
+        'name' => cmf()->string()->required()
+    ])
+);
+
+/**
+Will match an array such as:
+[
+    [
+        'name' => 'John'
+    ]
+];
+**/
 ```
