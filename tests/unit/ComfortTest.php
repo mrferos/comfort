@@ -4,6 +4,7 @@ namespace ComfortTest;
 use Comfort\Comfort;
 use Comfort\Validator\ArrayValidator;
 use Comfort\Validator\JsonValidator;
+use Comfort\Validator\NumberValidator;
 use Comfort\Validator\StringValidator;
 use RuntimeException;
 
@@ -14,7 +15,8 @@ class ComfortTest extends \PHPUnit_Framework_TestCase
         $types = [
             'string' => StringValidator::class,
             'array'  => ArrayValidator::class,
-            'json'   => JsonValidator::class
+            'json'   => JsonValidator::class,
+            'number' => NumberValidator::class,
         ];
 
         $comfort = new Comfort();
