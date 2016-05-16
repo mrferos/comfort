@@ -107,4 +107,31 @@ class ArrayValidator extends AbstractValidator
             }
         });
     }
+
+    /**
+     * Apply $definition to individual items in the array,
+     * used in case of multi-dimensional array
+     *
+     * @param AbstractValidator $definition
+     * @return $this
+     */
+    public function items(AbstractValidator $definition)
+    {
+        return $this->add(function($value, $nameKey) use($definition) {
+            if (!is_array($value)) {
+                return $this->createError('array.items.not_array', $value, $nameKey);
+            }
+
+            foreach ($value as $key => $val) {
+                $resp = $definition($val, $nameKey);
+                if ($resp instanceof ValidationError) {
+                    return $this->createError(
+                        'array.items.validation_failure', $value, $nameKey
+                    );
+                }
+            }
+        });
+
+        return $this;
+    }
 }
