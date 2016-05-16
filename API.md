@@ -25,6 +25,13 @@
     - [`array.length($length)`](#arraylengthlenght)
     - [`array.unique()`](#arrayunique)
     - [`array.items()`](#arrayitems)
+- [`number`](#number)
+    - [`number.min($min)`](#numberminmin)
+    - [`number.max($max)`](#numbermaxmax)
+    - [`number.precision($precision)`](#numberprecisionprecision)
+    - [`number.isInt()`](#numberisint)
+    - [`number.isFloat()`](#numberisfloat)
+    - [`number.isNumber()`](#numberisnumber)
 
 _Note: the following methods are inherited bty all validators_
 #### required()
@@ -183,4 +190,40 @@ $schema = cmf()->array()->items(
  *     ]
  * ];
 **/
+```
+#### number()
+**Note: This does _not_ validate the data type like the other methods due, only provides an entry point into the other number validators. To validata the numeric data types see the is<type> methods below**
+```php
+$schema = cmf()->number();
+```
+#### number.max($max)
+Validate data is no more than `$max`
+```php
+$schema = cmf()->number()->max($max)
+```
+#### number.min($min)
+Validate data is no less than `$min`
+```php
+$schema = cmf()->number()->min($min)
+```
+#### number.precision($precision)
+Validate number's precision `$precision`
+```php
+$schema = cmf()->number()->precision($precision)
+```
+_Note: the is<int|float|number> method style that runs counter to the other validator's naming conventions is due to php7's reserves words_
+#### number.isInt()
+Validate number is an integer
+```php
+$schema = cmf()->number()->isInt()
+```
+#### number.isFloat()
+Validate number is a float
+```php
+$schema = cmf()->number()->isFloat()
+```
+#### number.isNumber()
+Validate number is a number
+```php
+$schema = cmf()->number()->isNumber()
 ```
