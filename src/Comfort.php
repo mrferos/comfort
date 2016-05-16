@@ -3,6 +3,7 @@ namespace Comfort;
 
 use Comfort\Validator\ArrayValidator;
 use Comfort\Validator\JsonValidator;
+use Comfort\Validator\NumberValidator;
 use Comfort\Validator\StringValidator;
 
 /**
@@ -31,6 +32,8 @@ class Comfort
                 return new StringValidator($this);
             case 'json':
                 return new JsonValidator($this);
+            case 'number':
+                return new NumberValidator($this);
             default:
                 throw new \RuntimeException('Unsupported data type');
         }
