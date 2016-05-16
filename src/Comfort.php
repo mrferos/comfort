@@ -12,6 +12,7 @@ use Comfort\Validator\StringValidator;
  * @method ArrayValidator array()
  * @method StringValidator string()
  * @method JsonValidator json()
+ * @method NumberValidator number()
  */
 class Comfort
 {
