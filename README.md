@@ -85,7 +85,7 @@ The schema defined above validates the following:
 
 ## Usage
 
-Using Comfort entails defining your schema like we do above which returns an callable to be used like so:
+Using Comfort entails defining your schema like we do above which returns a callable to be used like so:
 ```php
 $data = $registrationSchema($jsonData);
 ```
