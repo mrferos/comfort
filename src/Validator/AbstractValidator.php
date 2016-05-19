@@ -62,7 +62,7 @@ abstract class AbstractValidator
     public function __invoke($value, $key = null)
     {
         if (is_null($value) && $this->optional) {
-            if (!is_null($this->defaultValue)) {
+            if (is_null($this->defaultValue)) {
                 return;
             } else {
                 $value = $this->defaultValue;
