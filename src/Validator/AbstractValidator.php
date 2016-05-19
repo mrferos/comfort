@@ -30,6 +30,10 @@ abstract class AbstractValidator
      */
     private $optional = true;
     /**
+     * @var mixed
+     */
+    private $defaultValue;
+    /**
      * @var array
      */
     protected $errorHandlers = [
@@ -58,7 +62,11 @@ abstract class AbstractValidator
     public function __invoke($value, $key = null)
     {
         if (is_null($value) && $this->optional) {
-            return;
+            if (!is_null($this->defaultValue)) {
+                return;
+            } else {
+                $value = $this->defaultValue;
+            }
         }
 
         try {
@@ -158,6 +166,11 @@ abstract class AbstractValidator
         $this->toBool = (boolean)$val;
 
         return $this;
+    }
+
+    public function defaultValue($value)
+    {
+        $this->defaultValue = $value;
     }
 
     /**
