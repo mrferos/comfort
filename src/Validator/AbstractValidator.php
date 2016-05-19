@@ -168,9 +168,17 @@ abstract class AbstractValidator
         return $this;
     }
 
+    /**
+     * Set default value
+     *
+     * @param $value
+     * @return $this
+     */
     public function defaultValue($value)
     {
         $this->defaultValue = $value;
+
+        return $this;
     }
 
     /**
