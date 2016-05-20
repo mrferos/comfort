@@ -148,9 +148,7 @@ class ArrayValidator extends AbstractValidator
             foreach ($value as $key => $val) {
                 $resp = $definition($val, $nameKey);
                 if ($resp instanceof ValidationError) {
-                    return $this->createError(
-                        'array.items.validation_failure', $value, $nameKey
-                    );
+                    return $resp;
                 }
             }
         });

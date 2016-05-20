@@ -229,6 +229,26 @@ abstract class AbstractValidator
     }
 
     /**
+     * Set error messages
+     *
+     * @param array $errorMessages
+     * @return $this
+     */
+    public function errorMessages(array $errorMessages)
+    {
+        $errorMessages = array_map(function($errorMessage) {
+            if (is_string($errorMessage)) {
+                $errorMessage = ['message' => $errorMessage];
+            }
+
+            return $errorMessage;
+        }, $errorMessages);
+
+        $this->errorHandlers = array_merge($this->errorHandlers, $errorMessages);
+        return $this;
+    }
+
+    /**
      * Create an error with a formatted message
      *
      * @param string $key
