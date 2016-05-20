@@ -10,6 +10,27 @@ class NumberValidator extends AbstractValidator
         parent::__construct($comfort);
 
         $this->toBool(false);
+
+        $this->errorHandlers += [
+            'number.min' => [
+                'message' => '%s must be above %s'
+            ],
+            'number.max' => [
+                'message' => '%s must be below %s'
+            ],
+            'number.precision' => [
+                'message' => '%s must be precision %s'
+            ],
+            'number.is_int' => [
+                'message' => '%s must be an int'
+            ],
+            'number.is_float' => [
+                'message' => '%s must be a float'
+            ],
+            'number.is_number' => [
+                'message' => '%s must be a number'
+            ],
+        ];
     }
 
     /**
