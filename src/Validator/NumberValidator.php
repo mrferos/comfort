@@ -42,9 +42,9 @@ class NumberValidator extends AbstractValidator
     public function min($min)
     {
         return $this->add(function($value, $nameKey) use ($min) {
-           if ($value < $min) {
-               return $this->createError('number.min', $value, $nameKey);
-           }
+            if ($value < $min) {
+                return $this->createError('number.min', $value, $nameKey);
+            }
         });
     }
 
