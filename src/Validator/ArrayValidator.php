@@ -17,6 +17,33 @@ class ArrayValidator extends AbstractValidator
         parent::__construct($comfort);
 
         $this->toBool(false);
+
+        $this->add(function($value, $nameKey) {
+            if (!is_array($value)) {
+                return $this->createError('array.not_array', $value, $nameKey);
+            }
+        });
+
+        $this->errorHandlers += [
+            'array.min' => [
+                'message' => '%s must contains at least %s elements'
+            ],
+            'array.max' => [
+                'message' => '%s must contain no more than %s elements'
+            ],
+            'array.length' => [
+                'message' => '%s must only contain %s elements'
+            ],
+            'array.unique' => [
+                'message' => '%s is not an array containing all unique values'
+            ],
+            'array.items.validation_failure' => [
+                'message' => '%s has an item that fails validation'
+            ],
+            'array.not_array' => [
+                'message' => '%s is not an array'
+            ],
+        ];
     }
 
     /**
@@ -118,10 +145,6 @@ class ArrayValidator extends AbstractValidator
     public function items(AbstractValidator $definition)
     {
         return $this->add(function($value, $nameKey) use($definition) {
-            if (!is_array($value)) {
-                return $this->createError('array.items.not_array', $value, $nameKey);
-            }
-
             foreach ($value as $key => $val) {
                 $resp = $definition($val, $nameKey);
                 if ($resp instanceof ValidationError) {

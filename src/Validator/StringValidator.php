@@ -15,6 +15,30 @@ class StringValidator extends AbstractValidator
             ],
             'string.alpha' => [
                 'message' => '%s is not alpha numeric'
+            ],
+            'string.token' => [
+                'message' => '%s is not a token'
+            ],
+            'string.min' => [
+                'message' => '%s must be more than % characters long'
+            ],
+            'string.max' => [
+                'message' => '%s must be less than % characters long'
+            ],
+            'string.alphanum' => [
+                'message' => '%s must be alphanumeric'
+            ],
+            'string.matches' => [
+                'message' => '%s does not match %s'
+            ],
+            'string.email' => [
+                'message' => '%s must be an email'
+            ],
+            'string.ip' => [
+                'message' => '%s must be an IP'
+            ],
+            'string.uri' => [
+                'message' => '%s must be a URI'
             ]
         ];
 
@@ -56,7 +80,7 @@ class StringValidator extends AbstractValidator
     {
         return $this->add(function($value, $nameKey) use ($min) {
             if (strlen($value) < $min) {
-                $this->createError('string.min', $value, $nameKey);
+                $this->createError('string.min', $value, $nameKey, $min);
             }
         });
     }
@@ -71,7 +95,7 @@ class StringValidator extends AbstractValidator
     {
         return $this->add(function($value, $nameKey) use ($max) {
             if (strlen($value) > $max) {
-                return $this->createError('string.max', $value, $nameKey);
+                return $this->createError('string.max', $value, $nameKey, $max);
             }
         });
     }
@@ -86,7 +110,7 @@ class StringValidator extends AbstractValidator
     {
         return $this->add(function($value, $nameKey) use ($regex) {
             if (!preg_match($regex, $value)) {
-                return $this->createError('string.matches', $value, $nameKey);
+                return $this->createError('string.matches', $value, $nameKey, $regex);
             }
         });
     }
@@ -100,7 +124,7 @@ class StringValidator extends AbstractValidator
     {
         return $this->add(function($value, $nameKey) use ($length) {
             if (strlen($value) != $length) {
-                return $this->createError('string.length', $value, $nameKey);
+                return $this->createError('string.length', $value, $nameKey, $length);
             }
         });
     }

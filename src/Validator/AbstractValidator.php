@@ -234,10 +234,11 @@ abstract class AbstractValidator
      * @param string $key
      * @param null|string $value
      * @param null|string $valueKey
+     * @param mixed $validationValue
      * @throws DiscomfortException
      * @throws ValidationException
      */
-    protected function createError($key, $value = null, $valueKey = null)
+    protected function createError($key, $value = null, $valueKey = null, $validationValue = null)
     {
         if (!array_key_exists($key, $this->errorHandlers)) {
             throw new ValidationException(
@@ -248,8 +249,8 @@ abstract class AbstractValidator
 
         $errorHandler = $this->errorHandlers[$key];
         if (!array_key_exists('message_formatter', $errorHandler)) {
-            $messageFormatter = function($template, $value) {
-                return sprintf($template, $value);
+            $messageFormatter = function($template, $value, $validationValue = null) {
+                return sprintf($template, $value, $validationValue);
             };
         } else {
             $messageFormatter = $errorHandler['message_formatter'];
@@ -258,9 +259,15 @@ abstract class AbstractValidator
             }
         }
 
-        $templateValue = "'{$value}'";
         if (!is_null($valueKey)) {
             $templateValue = $valueKey;
+        } else {
+            if (!is_string($value)) {
+                $valueType = gettype($value);
+                $templateValue = "'{$valueType}'";
+            } else {
+                $templateValue = "'{$value}'";
+            }
         }
 
         $errorMessage = $messageFormatter(
