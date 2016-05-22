@@ -22,6 +22,18 @@ class ArrayValidatorTest extends \PHPUnit_Framework_TestCase
         $this->arrayValidator->toBool(true);
     }
 
+    public function testIsArray()
+    {
+        $result = $this->arrayValidator->__invoke([]);
+        $this->assertNotFalse($result);
+    }
+
+    public function testIsNotArray()
+    {
+        $result = $this->arrayValidator->__invoke(5);
+        $this->assertFalse($result);
+    }
+
     public function testBelowMin()
     {
         $this->arrayValidator->min(5);

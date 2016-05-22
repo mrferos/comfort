@@ -21,6 +21,18 @@ class StringValidatorTest extends \PHPUnit_Framework_TestCase
         $this->stringValidator = new StringValidator($this->comfortMock);
     }
 
+    public function testIsString()
+    {
+        $result = $this->stringValidator->__invoke('abc019');
+        $this->assertNotFalse($result);
+    }
+
+    public function testIsNotString()
+    {
+        $result = $this->stringValidator->__invoke([]);
+        $this->assertFalse($result);
+    }
+
     public function testIsToken()
     {
         $this->stringValidator->token();
