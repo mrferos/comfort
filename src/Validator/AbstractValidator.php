@@ -80,7 +80,7 @@ abstract class AbstractValidator
             } while (next($this->validationStack));
 
             return $value;
-        }catch (ValidationException $validationException) {
+        } catch (ValidationException $validationException) {
             if ($this->toBool) {
                 return false;
             }
@@ -108,6 +108,7 @@ abstract class AbstractValidator
                 $this->createError('required', $value, $nameKey);
             }
         });
+
 
         return $this;
     }
