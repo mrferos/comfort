@@ -2,7 +2,6 @@
 namespace Comfort\Validator;
 
 use Comfort\Comfort;
-use Comfort\Error;
 use Comfort\Exception\ValidationException;
 use Comfort\ValidationError;
 
