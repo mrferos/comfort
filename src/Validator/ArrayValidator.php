@@ -59,6 +59,10 @@ class ArrayValidator extends AbstractValidator
              * @var AbstractValidator $validator
              */
             foreach ($definition as $key => $validator) {
+                if (!$validator instanceof AbstractValidator) {
+                    return $this->createError('array.invalid_keys_entry');
+                }
+
                 $validator->toBool(false);
                 $validatorValue = isset($value[$key]) ? $value[$key] : null;
                 $result = $validator($validatorValue, $key);

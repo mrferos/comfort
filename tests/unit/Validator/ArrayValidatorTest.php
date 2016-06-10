@@ -1,6 +1,7 @@
 <?php
 namespace ComfortTest\Validator;
 
+use Comfort\ValidationError;
 use Comfort\Validator\ArrayValidator;
 use Comfort\Comfort;
 
@@ -95,6 +96,15 @@ class ArrayValidatorTest extends \PHPUnit_Framework_TestCase
         $this->arrayValidator->unique();
         $result = $this->arrayValidator->__invoke(['a', 'a', 'b', 'c']);
         $this->assertFalse($result);
+    }
+
+    public function testKeysContainsNonValidator()
+    {
+        $this->arrayValidator->toBool(false);
+        $this->arrayValidator->keys(['rawr']);
+        $result = $this->arrayValidator->__invoke(['a', 'a', 'b', 'c']);
+        $this->assertInstanceOf(ValidationError::class, $result);
+        $this->assertEquals('array.invalid_keys_entry', $result->getKey());
     }
 
 }

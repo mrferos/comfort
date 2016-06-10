@@ -2,6 +2,8 @@
 namespace ComfortTest\Validator;
 
 use Comfort\Comfort;
+use Comfort\ValidationError;
+use Comfort\Validator\AbstractValidator;
 use Comfort\Validator\StringValidator;
 
 class StringValidatorTest extends \PHPUnit_Framework_TestCase
@@ -185,5 +187,179 @@ class StringValidatorTest extends \PHPUnit_Framework_TestCase
         $this->stringValidator->replace('/\d+/', 'rawr');
         $result = $this->stringValidator->__invoke('123455');
         $this->assertEquals('rawr', $result);
+    }
+
+
+    /** TODO: really should make a fixture for this */
+
+    public function testErrorMessages()
+    {
+        $customErrorMessage = 'custom error message';
+        $this->stringValidator->toBool(false);
+        $this->stringValidator->min(5);
+        $this->stringValidator->errorMessages([
+            'string.min' => $customErrorMessage
+        ]);
+
+        $errorMessages = $this->stringValidator->__invoke('two');
+        $this->assertEquals('string.min', $errorMessages->getKey());
+        $this->assertEquals($customErrorMessage, $errorMessages->getMessage());
+    }
+
+    public function testOptional()
+    {
+        $this->stringValidator->min(5);
+        $this->stringValidator->optional();
+        $result = $this->stringValidator->__invoke(null);
+        $this->assertNull($result);
+    }
+
+    public function testRequired()
+    {
+        $this->stringValidator->min(5);
+        $this->stringValidator->required();
+        $result = $this->stringValidator->__invoke(null);
+        $this->assertFalse($result);
+    }
+
+    public function testDefaultValue()
+    {
+        $testVal = 'default value';
+        $this->stringValidator->defaultValue($testVal);
+        $result = $this->stringValidator->__invoke(null);
+        $this->assertEquals($testVal, $result);
+    }
+
+    public function tsestAlternativesWithoutIs()
+    {
+        $this->stringValidator->toBool(false);
+        $this->stringValidator->alternatives([[]]);
+        $result = $this->stringValidator->__invoke('value');
+        $this->assertInstanceOf(ValidationError::class, $result);
+        $this->assertEquals('alternatives.missing_is', $result->getKey());
+    }
+
+    public function testAlternativesIsNotValidator()
+    {
+        $this->stringValidator->toBool(false);
+        $this->stringValidator->alternatives([[
+            'is' => 'rawr'
+        ]]);
+        $result = $this->stringValidator->__invoke('value');
+        $this->assertInstanceOf(ValidationError::class, $result);
+        $this->assertEquals('alternatives.invalid_is', $result->getKey());
+    }
+
+    public function testAlternativesWithoutThen()
+    {
+        $this->stringValidator->toBool(false);
+        $this->stringValidator->alternatives([[
+            'is' => $this->getMockBuilder(AbstractValidator::class)
+                            ->disableOriginalConstructor()
+                            ->getMock()
+        ]]);
+
+        $result = $this->stringValidator->__invoke('value');
+        $this->assertInstanceOf(ValidationError::class, $result);
+        $this->assertEquals('alternatives.missing_then', $result->getKey());
+    }
+
+    public function testAlternativesWithValidatorThen()
+    {
+        $isMock = $this->getMockBuilder(AbstractValidator::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $isMock->method('__invoke')
+            ->willReturn(true);
+
+        $verificationMessage = 'string';
+        $thenMock = $this->getMockBuilder(AbstractValidator::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $thenMock->method('__invoke')
+            ->with($verificationMessage);
+
+        $this->stringValidator->toBool(false);
+        $this->stringValidator->alternatives([[
+            'is' => $isMock,
+            'then' => $thenMock
+        ]]);
+
+        $result = $this->stringValidator->__invoke($verificationMessage);
+        $this->assertEquals($verificationMessage, $result);
+    }
+
+    public function testAlternativesWithScalarThen()
+    {
+        $isMock = $this->getMockBuilder(AbstractValidator::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $isMock->method('__invoke')
+            ->willReturn(true);
+
+        $verificationMessage = 'string';
+
+        $time = microtime();
+        $this->stringValidator->toBool(false);
+        $this->stringValidator->alternatives([[
+            'is' => $isMock,
+            'then' => $time
+        ]]);
+
+        $result = $this->stringValidator->__invoke($verificationMessage);
+        $this->assertEquals($time, $result);
+    }
+
+    public function testAlternativesWithValidatorElse()
+    {
+        $isMock = $this->getMockBuilder(AbstractValidator::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $isMock->method('__invoke')
+            ->willReturn(false);
+
+        $verificationMessage = 'string';
+        $elseMock = $this->getMockBuilder(AbstractValidator::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $elseMock->method('__invoke')
+            ->with($verificationMessage);
+
+        $this->stringValidator->toBool(false);
+        $this->stringValidator->alternatives([[
+            'is' => $isMock,
+            'then' => false,
+            'else' => $elseMock
+        ]]);
+
+        $result = $this->stringValidator->__invoke($verificationMessage);
+        $this->assertEquals($verificationMessage, $result);
+    }
+
+    public function testAlternativesWithScalarElse()
+    {
+        $isMock = $this->getMockBuilder(AbstractValidator::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $isMock->method('__invoke')
+            ->willReturn(false);
+
+        $verificationMessage = 'string';
+        $elseVal = microtime();
+        $this->stringValidator->toBool(false);
+        $this->stringValidator->alternatives([[
+            'is' => $isMock,
+            'then' => false,
+            'else' => $elseVal
+        ]]);
+
+        $result = $this->stringValidator->__invoke($verificationMessage);
+        $this->assertEquals($elseVal, $result);
     }
 }
