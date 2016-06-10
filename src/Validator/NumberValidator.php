@@ -41,7 +41,7 @@ class NumberValidator extends AbstractValidator
      */
     public function min($min)
     {
-        return $this->add(function($value, $nameKey) use ($min) {
+        return $this->add(function ($value, $nameKey) use ($min) {
             if ($value < $min) {
                 return $this->createError('number.min', $value, $nameKey);
             }
@@ -56,7 +56,7 @@ class NumberValidator extends AbstractValidator
      */
     public function max($max)
     {
-        return $this->add(function($value, $nameKey) use ($max) {
+        return $this->add(function ($value, $nameKey) use ($max) {
             if ($value > $max) {
                 return $this->createError('number.max', $value, $nameKey);
             }
@@ -72,7 +72,7 @@ class NumberValidator extends AbstractValidator
      */
     public function precision($precision)
     {
-        return $this->add(function($value, $nameKey) use ($precision) {
+        return $this->add(function ($value, $nameKey) use ($precision) {
             if (strlen(substr($value, strpos($value, '.') + 1)) != $precision) {
                 return $this->createError('number.precision', $value, $nameKey);
             }
@@ -86,7 +86,7 @@ class NumberValidator extends AbstractValidator
      */
     public function isInt()
     {
-        return $this->add(function($value, $nameKey) {
+        return $this->add(function ($value, $nameKey) {
             if (!is_int($value)) {
                 return $this->createError('number.is_int', $value, $nameKey);
             }
@@ -100,7 +100,7 @@ class NumberValidator extends AbstractValidator
      */
     public function isFloat()
     {
-        return $this->add(function($value, $nameKey) {
+        return $this->add(function ($value, $nameKey) {
             if (!is_float($value)) {
                 return $this->createError('number.is_float', $value, $nameKey);
             }
@@ -114,7 +114,7 @@ class NumberValidator extends AbstractValidator
      */
     public function isNumber()
     {
-        return $this->add(function($value, $nameKey) {
+        return $this->add(function ($value, $nameKey) {
             if (!is_numeric($value)) {
                 return $this->createError('number.is_numeric', $value, $nameKey);
             }

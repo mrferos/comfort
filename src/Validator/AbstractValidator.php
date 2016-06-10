@@ -103,7 +103,7 @@ abstract class AbstractValidator
     {
         $this->optional = false;
 
-        $this->add(function($value, $nameKey) {
+        $this->add(function ($value, $nameKey) {
             if (is_null($value)) {
                 $this->createError('required', $value, $nameKey);
             }
@@ -147,7 +147,7 @@ abstract class AbstractValidator
      */
     public function anyOf(array $vals)
     {
-        $this->add(function($value, $nameKey) use ($vals) {
+        $this->add(function ($value, $nameKey) use ($vals) {
             if (!in_array($value, $vals)) {
                 return $this->createError('anyof', $value, $nameKey);
             }
@@ -190,9 +190,9 @@ abstract class AbstractValidator
      */
     public function alternatives($conditions)
     {
-        $this->add(function($value, $nameKey) use($conditions) {
-            foreach ($conditions as $condition) {
+        $this->add(function ($value, $nameKey) use ($conditions) {
 
+            foreach ($conditions as $condition) {
                 if (!isset($condition['is'])) {
                     return $this->createError('alternatives.missing_is', $value, $nameKey);
                 }
@@ -242,7 +242,7 @@ abstract class AbstractValidator
      */
     public function errorMessages(array $errorMessages)
     {
-        $errorMessages = array_map(function($errorMessage) {
+        $errorMessages = array_map(function ($errorMessage) {
             if (is_string($errorMessage)) {
                 $errorMessage = ['message' => $errorMessage];
             }
@@ -275,7 +275,7 @@ abstract class AbstractValidator
 
         $errorHandler = $this->errorHandlers[$key];
         if (!array_key_exists('message_formatter', $errorHandler)) {
-            $messageFormatter = function($template, $value, $validationValue = null) {
+            $messageFormatter = function ($template, $value, $validationValue = null) {
                 return sprintf($template, $value, $validationValue);
             };
         } else {
