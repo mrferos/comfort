@@ -6,5 +6,5 @@ php:
   - '5.5'
   - '5.6'
 script:
-  - php vendor/bin/phpcs
+  - php vendor/squizlabs/php_codesniffer/scripts/phpcs
   - php vendor/bin/phpunit
