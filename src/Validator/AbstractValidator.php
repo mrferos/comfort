@@ -193,19 +193,26 @@ abstract class AbstractValidator
         $this->add(function($value, $nameKey) use($conditions) {
             foreach ($conditions as $condition) {
 
+                if (!isset($condition['is'])) {
+                    return $this->createError('alternatives.missing_is', $value, $nameKey);
+                }
+
+                if (!$condition['is'] instanceof AbstractValidator) {
+                    return $this->createError('alternatives.invalid_is', $value, $nameKey);
+                }
+
+                /** @var AbstractValidator $is */
                 $is = $condition['is'];
                 $is->toBool(true);
 
                 if (!isset($condition['then'])) {
-                    $this->createError('alternatives.missing_then', $value, $nameKey);
+                    return $this->createError('alternatives.missing_then', $value, $nameKey);
                 }
 
                 if ($is($value)) {
                     if ($condition['then'] instanceof AbstractValidator) {
-                        $reflObject = new \ReflectionObject($condition['then']);
-                        $validationStack = $reflObject->getProperty('validationStack');
-                        $validationStack->setAccessible(true);
-                        foreach ($validationStack->getValue($condition['then']) as $validator) {
+                        $validationStack = $condition['then']->validationStack;
+                        foreach ($validationStack as $validator) {
                             $this->validationStack[] = $validator;
                         }
                     } elseif (!is_null($condition['then'])) {
@@ -213,10 +220,8 @@ abstract class AbstractValidator
                     }
                 } elseif (isset($condition['else'])) {
                     if ($condition['else'] instanceof AbstractValidator) {
-                        $reflObject = new \ReflectionObject($condition['else']);
-                        $validationStack = $reflObject->getProperty('validationStack');
-                        $validationStack->setAccessible(true);
-                        foreach ($validationStack->getValue($condition['else']) as $validator) {
+                        $validationStack = $condition['else']->validationStack;
+                        foreach ($validationStack as $validator) {
                             $this->validationStack[] = $validator;
                         }
                     } elseif (!is_null($condition['else'])) {
