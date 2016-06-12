@@ -24,7 +24,7 @@ abstract class AbstractValidator
     /**
      * @var boolean
      */
-    private $toBool = true;
+    private $toBool = false;
     /**
      * @var bool
      */

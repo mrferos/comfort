@@ -21,6 +21,7 @@ class StringValidatorTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->stringValidator = new StringValidator($this->comfortMock);
+        $this->stringValidator->toBool(true);
     }
 
     public function testIsString()

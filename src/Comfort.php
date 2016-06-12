@@ -1,6 +1,7 @@
 <?php
 namespace Comfort;
 
+use Comfort\Validator\AnyValidator;
 use Comfort\Validator\ArrayValidator;
 use Comfort\Validator\JsonValidator;
 use Comfort\Validator\NumberValidator;
@@ -13,6 +14,7 @@ use Comfort\Validator\StringValidator;
  * @method StringValidator string()
  * @method JsonValidator json()
  * @method NumberValidator number()
+ * @method AnyValidator any()
  */
 class Comfort
 {
@@ -21,7 +23,7 @@ class Comfort
      *
      * @param $name
      * @param $arguments
-     * @return ArrayValidator|JsonValidator|StringValidator
+     * @return ArrayValidator|JsonValidator|StringValidator|AnyValidator
      * @throws \RuntimeException
      */
     public function __call($name, $arguments)
@@ -35,6 +37,8 @@ class Comfort
                 return new JsonValidator($this);
             case 'number':
                 return new NumberValidator($this);
+            case 'any':
+                return new AnyValidator($this);
             default:
                 throw new \RuntimeException('Unsupported data type');
         }

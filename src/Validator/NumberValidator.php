@@ -12,8 +12,6 @@ class NumberValidator extends AbstractValidator
     {
         parent::__construct($comfort);
 
-        $this->toBool(false);
-
         $this->errorHandlers += [
             'number.min' => [
                 'message' => '%s must be above %s'
@@ -40,6 +38,8 @@ class NumberValidator extends AbstractValidator
                 'message' => '%s must be positive'
             ]
         ];
+
+        $this->isNumber();
     }
 
     /**

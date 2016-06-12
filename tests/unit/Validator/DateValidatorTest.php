@@ -20,6 +20,7 @@ class DateValidatorTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->dateValidator = new DateValidator($this->comfortMock);
+        $this->dateValidator->toBool(true);
     }
 
     public function testIso()
