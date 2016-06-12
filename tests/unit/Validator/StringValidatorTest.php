@@ -184,6 +184,7 @@ class StringValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function testReplace()
     {
+        $this->stringValidator->toBool(false);
         $this->stringValidator->replace('/\d+/', 'rawr');
         $result = $this->stringValidator->__invoke('123455');
         $this->assertEquals('rawr', $result);
@@ -216,7 +217,6 @@ class StringValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function testRequired()
     {
-        $this->stringValidator->min(5);
         $this->stringValidator->required();
         $result = $this->stringValidator->__invoke(null);
         $this->assertFalse($result);
@@ -225,6 +225,7 @@ class StringValidatorTest extends \PHPUnit_Framework_TestCase
     public function testDefaultValue()
     {
         $testVal = 'default value';
+        $this->stringValidator->toBool(false);
         $this->stringValidator->defaultValue($testVal);
         $result = $this->stringValidator->__invoke(null);
         $this->assertEquals($testVal, $result);
@@ -361,5 +362,19 @@ class StringValidatorTest extends \PHPUnit_Framework_TestCase
 
         $result = $this->stringValidator->__invoke($verificationMessage);
         $this->assertEquals($elseVal, $result);
+    }
+
+    public function testValueInAnyOf()
+    {
+        $this->stringValidator->anyOf(['these', 'are', 'values']);
+        $result = $this->stringValidator->__invoke('are');
+        $this->assertTrue($result);
+    }
+
+    public function testValueNotInAnyOf()
+    {
+        $this->stringValidator->anyOf(['these', 'are', 'values']);
+        $result = $this->stringValidator->__invoke('arre');
+        $this->assertFalse($result);
     }
 }

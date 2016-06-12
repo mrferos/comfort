@@ -33,14 +33,14 @@ class NumberValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $this->numberValidator->min(100);
         $result = $this->numberValidator->__invoke(190);
-        $this->assertNotTrue($result);
+        $this->assertTrue($result);
     }
 
     public function testBelowMax()
     {
         $this->numberValidator->max(100);
         $result = $this->numberValidator->__invoke(90);
-        $this->assertNotTrue($result);
+        $this->assertTrue($result);
     }
 
     public function testAboveMax()
@@ -68,7 +68,7 @@ class NumberValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $this->numberValidator->isInt();
         $result = $this->numberValidator->__invoke(100);
-        $this->assertNotTrue($result);
+        $this->assertTrue($result);
     }
 
     public function testIsNotInt()
@@ -96,13 +96,42 @@ class NumberValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $this->numberValidator->isNumber();
         $result = $this->numberValidator->__invoke(100.204);
-        $this->assertNotTrue($result);
+        $this->assertTrue($result);
     }
 
     public function testIsNotNumber()
     {
         $this->numberValidator->isNumber();
         $result = $this->numberValidator->__invoke('not a number');
+        $this->assertFalse($result);
+    }
+
+    public function testNumberIsPositive()
+    {
+        $this->numberValidator->positive();
+        $result = $this->numberValidator->__invoke(10);
+        $this->assertTrue($result);
+    }
+
+    public function testNumberIsNotPositive()
+    {
+        $this->numberValidator->positive();
+        $result = $this->numberValidator->__invoke(-5);
+        $this->assertFalse($result);
+
+    }
+
+    public function testNumberIsNegative()
+    {
+        $this->numberValidator->negative();
+        $result = $this->numberValidator->__invoke(-5);
+        $this->assertTrue($result);
+    }
+
+    public function testNumberIsNotNegative()
+    {
+        $this->numberValidator->negative();
+        $result = $this->numberValidator->__invoke(10);
         $this->assertFalse($result);
     }
 }

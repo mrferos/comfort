@@ -2,9 +2,12 @@
 namespace Comfort\Validator;
 
 use Comfort\Comfort;
+use Comfort\Validator\Helper\AnyOfTrait;
 
 class StringValidator extends AbstractValidator
 {
+    use AnyOfTrait;
+
     public function __construct(Comfort $comfort)
     {
         parent::__construct($comfort);

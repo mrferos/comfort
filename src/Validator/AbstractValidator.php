@@ -79,6 +79,10 @@ abstract class AbstractValidator
                 $value = $retVal === null ? $value : $retVal;
             } while (next($this->validationStack));
 
+            if ($this->toBool) {
+                return true;
+            }
+
             return $value;
         } catch (ValidationException $validationException) {
             if ($this->toBool) {
@@ -135,23 +139,6 @@ abstract class AbstractValidator
     public function add(callable $validation)
     {
         $this->validationStack[] = $validation;
-
-        return $this;
-    }
-
-    /**
-     * Validate given value matches any of the provided strings
-     *
-     * @param array $vals
-     * @return $this
-     */
-    public function anyOf(array $vals)
-    {
-        $this->add(function($value, $nameKey) use ($vals) {
-            if (!in_array($value, $vals)) {
-                return $this->createError('anyof', $value, $nameKey);
-            }
-        });
 
         return $this;
     }

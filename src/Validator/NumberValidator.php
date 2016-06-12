@@ -2,9 +2,12 @@
 namespace Comfort\Validator;
 
 use Comfort\Comfort;
+use Comfort\Validator\Helper\AnyOfTrait;
 
 class NumberValidator extends AbstractValidator
 {
+    use AnyOfTrait;
+
     public function __construct(Comfort $comfort)
     {
         parent::__construct($comfort);
@@ -30,6 +33,12 @@ class NumberValidator extends AbstractValidator
             'number.is_number' => [
                 'message' => '%s must be a number'
             ],
+            'number.negative' => [
+                'message' => '%s must be negative'
+            ],
+            'number.positive' => [
+                'message' => '%s must be positive'
+            ]
         ];
     }
 
@@ -75,6 +84,32 @@ class NumberValidator extends AbstractValidator
         return $this->add(function($value, $nameKey) use ($precision) {
             if (strlen(substr($value, strpos($value, '.') + 1)) != $precision) {
                 return $this->createError('number.precision', $value, $nameKey);
+            }
+        });
+    }
+
+    /**
+     * Validate a number is positive
+     *
+     * @return $this
+     */
+    public function positive()
+    {
+        return $this->add(function($value, $nameKey) {
+            if ($value < 0) {
+                return $this->createError('number.positive', $value, $nameKey);
+            }
+        });
+    }
+
+    /**
+     * Validate a number is negative
+     */
+    public function negative()
+    {
+        return $this->add(function($value, $nameKey) {
+            if ($value > 0) {
+                return $this->createError('number.negative', $value, $nameKey);
             }
         });
     }
