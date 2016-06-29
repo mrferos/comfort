@@ -1,6 +1,6 @@
 # Comfort
 ![Travis-CI](https://api.travis-ci.org/mrferos/comfort.svg)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mrferos/comfort/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mrferos/comfort/?branch=master)<br />
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mrferos/comfort/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mrferos/comfort/?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/mrferos/comfort/badge.svg?branch=master)](https://coveralls.io/github/mrferos/comfort?branch=master)<br />
 
 ## Easy & Flexible validation for your data.
