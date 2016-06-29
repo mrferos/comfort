@@ -17,7 +17,7 @@ class ArrayValidator extends AbstractValidator
 
         $this->toBool(false);
 
-        $this->add(function($value, $nameKey) {
+        $this->add(function ($value, $nameKey) {
             if (!is_array($value)) {
                 return $this->createError('array.not_array', $value, $nameKey);
             }
@@ -53,7 +53,7 @@ class ArrayValidator extends AbstractValidator
      */
     public function keys(array $definition)
     {
-        return $this->add(function(&$value) use ($definition) {
+        return $this->add(function (&$value) use ($definition) {
             /**
              * @var string $key
              * @var AbstractValidator $validator
@@ -87,7 +87,7 @@ class ArrayValidator extends AbstractValidator
      */
     public function min($min)
     {
-        return $this->add(function($value, $nameKey) use($min) {
+        return $this->add(function ($value, $nameKey) use ($min) {
             if (count($value) < $min) {
                 return $this->createError('array.min', $value, $nameKey);
             }
@@ -102,7 +102,7 @@ class ArrayValidator extends AbstractValidator
      */
     public function max($max)
     {
-        return $this->add(function($value, $nameKey) use($max) {
+        return $this->add(function ($value, $nameKey) use ($max) {
             if (count($value) > $max) {
                 return $this->createError('array.max', $value, $nameKey);
             }
@@ -117,7 +117,7 @@ class ArrayValidator extends AbstractValidator
      */
     public function length($length)
     {
-        return $this->add(function($value, $nameKey) use($length) {
+        return $this->add(function ($value, $nameKey) use ($length) {
             if (count($value) != $length) {
                 return $this->createError('array.length', $value, $nameKey);
             }
@@ -131,7 +131,7 @@ class ArrayValidator extends AbstractValidator
      */
     public function unique()
     {
-        return $this->add(function($value, $nameKey) {
+        return $this->add(function ($value, $nameKey) {
             if (md5(serialize($value)) != md5(serialize(array_unique($value)))) {
                 return $this->createError('array.unique', $value, $nameKey);
             }
@@ -147,7 +147,7 @@ class ArrayValidator extends AbstractValidator
      */
     public function items(AbstractValidator $definition)
     {
-        return $this->add(function($value, $nameKey) use($definition) {
+        return $this->add(function ($value, $nameKey) use ($definition) {
             foreach ($value as $key => $val) {
                 $resp = $definition($val, $nameKey);
                 if ($resp instanceof ValidationError) {

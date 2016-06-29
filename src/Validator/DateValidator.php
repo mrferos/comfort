@@ -11,7 +11,7 @@ class DateValidator extends AbstractValidator
      */
     public function format($format)
     {
-        return $this->add(function($value, $namekey) use($format) {
+        return $this->add(function ($value, $namekey) use ($format) {
             $date = \DateTime::createFromFormat($format, $value);
             if (false === $date) {
                 return $this->createError('date.format', $value, $namekey);
@@ -27,7 +27,7 @@ class DateValidator extends AbstractValidator
      */
     public function min($date)
     {
-        return $this->add(function($value, $nameKey) use ($date) {
+        return $this->add(function ($value, $nameKey) use ($date) {
             $minDate = strtotime($date);
             $curDate = strtotime($value);
 
@@ -45,7 +45,7 @@ class DateValidator extends AbstractValidator
      */
     public function max($date)
     {
-        return $this->add(function($value, $nameKey) use ($date) {
+        return $this->add(function ($value, $nameKey) use ($date) {
             $maxDate = strtotime($date);
             $curDate = strtotime($value);
 
@@ -62,10 +62,10 @@ class DateValidator extends AbstractValidator
      */
     public function timestamp()
     {
-        return $this->add(function($value, $nameKey) {
+        return $this->add(function ($value, $nameKey) {
             try {
                 new \DateTime('@' . $value);
-            }catch (\Exception $e) {
+            } catch (\Exception $e) {
                 return $this->createError('date.timestamp', $value, $nameKey);
             }
         });

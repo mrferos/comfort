@@ -1,7 +1,8 @@
 <?php
 namespace Comfort\Validator\Helper;
 
-trait AnyOfTrait {
+trait AnyOfTrait
+{
     /**
      * Validate given value matches any of the provided strings
      *
@@ -10,7 +11,7 @@ trait AnyOfTrait {
      */
     public function anyOf(array $vals)
     {
-        $this->add(function($value, $nameKey) use ($vals) {
+        $this->add(function ($value, $nameKey) use ($vals) {
             if (!in_array($value, $vals)) {
                 return $this->createError('anyof', $value, $nameKey);
             }
