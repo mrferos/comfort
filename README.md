@@ -99,9 +99,3 @@ Only the `json()` validator currently takes the liberty of automatically transfo
 will currently return data in the type it was passed to.
 
 See more at our API reference: [API.md](API.md)
-
-## Things to do:
-
-- [ ] Add tests
-- [ ] Refactor some code to not be nasty
-- [ ] Be original enough to not ripoff all of Joi's documentation format.
