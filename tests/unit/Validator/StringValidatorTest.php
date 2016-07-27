@@ -232,7 +232,7 @@ class StringValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($testVal, $result);
     }
 
-    public function tsestAlternativesWithoutIs()
+    public function testAlternativesWithoutIs()
     {
         $this->stringValidator->toBool(false);
         $this->stringValidator->alternatives([[]]);
