@@ -6,6 +6,7 @@ use Comfort\Error;
 use Comfort\Exception\DiscomfortException;
 use Comfort\Exception\ValidationException;
 use Comfort\ValidationError;
+use Comfort\Validator\Helper\AlternativesTrait;
 
 /**
  * Class AbstractValidator
@@ -13,6 +14,8 @@ use Comfort\ValidationError;
  */
 abstract class AbstractValidator
 {
+    use AlternativesTrait;
+
     /**
      * @var \Closure[]
      */
@@ -57,13 +60,13 @@ abstract class AbstractValidator
      *
      * @param mixed $value
      * @param null|string $key
-     * @return bool|ValidationError
+     * @return bool|ValidationError|null
      */
     public function __invoke($value, $key = null)
     {
         if (is_null($value) && $this->optional) {
             if (is_null($this->defaultValue)) {
-                return;
+                return null;
             } else {
                 $value = $this->defaultValue;
             }
@@ -144,8 +147,6 @@ abstract class AbstractValidator
     }
 
     /**
-<<<<<<< HEAD
-=======
      * Validate given value matches any of the provided strings
      *
      * @param array $vals
@@ -163,7 +164,6 @@ abstract class AbstractValidator
     }
 
     /**
->>>>>>> feature/phpcs
      * On validation failure whether to return false or a validation error
      *
      * @param bool $val
@@ -185,58 +185,6 @@ abstract class AbstractValidator
     public function defaultValue($value)
     {
         $this->defaultValue = $value;
-
-        return $this;
-    }
-
-    /**
-     * Provide conditional validation
-     *
-     * @param $conditions
-     * @return $this
-     */
-    public function alternatives($conditions)
-    {
-        $this->add(function ($value, $nameKey) use ($conditions) {
-
-            foreach ($conditions as $condition) {
-                if (!isset($condition['is'])) {
-                    return $this->createError('alternatives.missing_is', $value, $nameKey);
-                }
-
-                if (!$condition['is'] instanceof AbstractValidator) {
-                    return $this->createError('alternatives.invalid_is', $value, $nameKey);
-                }
-
-                /** @var AbstractValidator $is */
-                $is = $condition['is'];
-                $is->toBool(true);
-
-                if (!isset($condition['then'])) {
-                    return $this->createError('alternatives.missing_then', $value, $nameKey);
-                }
-
-                if ($is($value)) {
-                    if ($condition['then'] instanceof AbstractValidator) {
-                        $validationStack = $condition['then']->validationStack;
-                        foreach ($validationStack as $validator) {
-                            $this->validationStack[] = $validator;
-                        }
-                    } elseif (!is_null($condition['then'])) {
-                        return $condition['then'];
-                    }
-                } elseif (isset($condition['else'])) {
-                    if ($condition['else'] instanceof AbstractValidator) {
-                        $validationStack = $condition['else']->validationStack;
-                        foreach ($validationStack as $validator) {
-                            $this->validationStack[] = $validator;
-                        }
-                    } elseif (!is_null($condition['else'])) {
-                        return $condition['else'];
-                    }
-                }
-            }
-        });
 
         return $this;
     }
