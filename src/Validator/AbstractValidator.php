@@ -144,8 +144,6 @@ abstract class AbstractValidator
     }
 
     /**
-<<<<<<< HEAD
-=======
      * Validate given value matches any of the provided strings
      *
      * @param array $vals
