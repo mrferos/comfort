@@ -161,7 +161,6 @@ abstract class AbstractValidator
     }
 
     /**
->>>>>>> feature/phpcs
      * On validation failure whether to return false or a validation error
      *
      * @param bool $val
