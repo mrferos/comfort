@@ -99,3 +99,27 @@ Only the `json()` validator currently takes the liberty of automatically transfo
 will currently return data in the type it was passed to.
 
 See more at our API reference: [API.md](API.md)
+
+## Custom Validators
+
+When in need of business specific validations, the mechanism is simple. If for instance, the
+email validation must be changed to allow your custom validation schema it can be accomplished like so:
+
+```php
+class CustomerStringValidator extends \Comfort\Validator\StringValidator {        
+        public function email()
+        {
+            return $this->add(function ($value, $nameKey) {
+                if (strstr($value, 'test')) {
+                    return $this->createError('string.email', $value, $nameKey);
+                }
+            });
+        }
+}
+
+\Comfort\Comfort::registerValidator('string', CustomerStringValidator::class);
+```
+
+Subsequent calls to `cmf()->string()->email('test@gmail.com')` would run this new validator.
+
+**Note:** validators _must_ extend `\Comfort\Validator\AbstractValidator`
