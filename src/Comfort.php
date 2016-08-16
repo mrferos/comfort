@@ -1,6 +1,7 @@
 <?php
 namespace Comfort;
 
+use Comfort\Validator\AbstractValidator;
 use Comfort\Validator\AnyValidator;
 use Comfort\Validator\ArrayValidator;
 use Comfort\Validator\JsonValidator;
@@ -19,6 +20,13 @@ use Comfort\Validator\StringValidator;
 class Comfort
 {
     /**
+     * Mapped validators
+     *
+     * @var array
+     */
+    protected static $registeredValidators = [];
+
+    /**
      * Returns validator for given data type
      *
      * @param $name
@@ -28,19 +36,36 @@ class Comfort
      */
     public function __call($name, $arguments)
     {
-        switch ($name) {
-            case 'array':
-                return new ArrayValidator($this);
-            case 'string':
-                return new StringValidator($this);
-            case 'json':
-                return new JsonValidator($this);
-            case 'number':
-                return new NumberValidator($this);
-            case 'any':
-                return new AnyValidator($this);
-            default:
-                throw new \RuntimeException('Unsupported data type');
+        $class = $this->resolveValidator($name);
+        return new $class($this);
+    }
+
+    public static function registerValidator($name, $class)
+    {
+        if (!is_subclass_of($class, AbstractValidator::class)) {
+            throw new \RuntimeException($class . ' must extend ' . AbstractValidator::class);
         }
+
+        self::$registeredValidators[$name] = $class;
+    }
+
+    /**
+     * Return class name for validator
+     *
+     * @param $name
+     * @return string
+     */
+    protected function resolveValidator($name)
+    {
+        if (array_key_exists($name, self::$registeredValidators)) {
+            return self::$registeredValidators[$name];
+        }
+
+        $className = __NAMESPACE__ . '\\Validator\\' . ucfirst($name) . 'Validator';
+        if (class_exists($className)) {
+            return $className;
+        }
+
+        throw new \RuntimeException(sprintf('%s validator not found', $name));
     }
 }
