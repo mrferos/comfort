@@ -164,6 +164,32 @@ abstract class AbstractValidator
     }
 
     /**
+     * Map value to key in array and grab associated array value, or
+     * feed value into callable and use returned value
+     *
+     * @param array|callable $mapper
+     * @return $this
+     * @throws DiscomfortException
+     */
+    public function map($mapper)
+    {
+        if (!is_callable($mapper) && !is_array($mapper)) {
+            throw new DiscomfortException('$mapValues must be an array or callable');
+        }
+
+        $mapper = is_callable($mapper) ? $mapper : function($value) use ($mapper) {
+            if (array_key_exists($value, $mapper)) {
+                return $mapper[$value];
+            }
+        };
+
+        return $this->add(function($value) use ($mapper) {
+            $mappedVal = $mapper($value);
+            return $mappedVal === null ? $value : $mappedVal;
+        });
+    }
+
+    /**
      * On validation failure whether to return false or a validation error
      *
      * @param bool $val
