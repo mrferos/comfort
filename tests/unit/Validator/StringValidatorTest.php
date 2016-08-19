@@ -2,6 +2,7 @@
 namespace ComfortTest\Validator;
 
 use Comfort\Comfort;
+use Comfort\Exception\DiscomfortException;
 use Comfort\ValidationError;
 use Comfort\Validator\AbstractValidator;
 use Comfort\Validator\StringValidator;
@@ -377,5 +378,40 @@ class StringValidatorTest extends \PHPUnit_Framework_TestCase
         $this->stringValidator->anyOf(['these', 'are', 'values']);
         $result = $this->stringValidator->__invoke('arre');
         $this->assertFalse($result);
+    }
+
+    public function testMapWithInvalidMapper()
+    {
+        $this->setExpectedException(DiscomfortException::class);
+
+        $this->stringValidator->map('invalid-mapper');
+        $this->stringValidator->__invoke('value');
+    }
+
+    public function testMapWithArrayAndValueNotPresent()
+    {
+        $this->stringValidator->toBool(false);
+        $this->stringValidator->map(['not_present' => 'foo']);
+        $result = $this->stringValidator->__invoke('value');
+        $this->assertEquals('value', $result);
+    }
+
+    public function testMapWithArrayAndValuePresent()
+    {
+        $this->stringValidator->toBool(false);
+        $this->stringValidator->map(['present' => 'foo']);
+        $result = $this->stringValidator->__invoke('present');
+        $this->assertEquals('foo', $result);
+    }
+
+    public function testMapWithCallbackMapper()
+    {
+        $this->stringValidator->toBool(false);
+        $this->stringValidator->map(function() {
+            return 'returned-value';
+        });
+
+        $result = $this->stringValidator->__invoke('present');
+        $this->assertEquals('returned-value', $result);
     }
 }

@@ -1,5 +1,10 @@
 # Comfort Validation
 
+- [`any`](#any)
+    - [`any.required()`](#anyrequired)
+    - [`any.alternatives($alternatives)`](#anyalternativesalternatives)
+    - [`any.anyOf($values)`](#anyanyofvalues)
+    - [`any.map($mapper)`](#anymapmapper)
 - [`string`](#string)
 	- [`string.token()`](#stringtoken)
     - [`string.min($min)`](#stringminmin)
@@ -33,13 +38,20 @@
     - [`number.isFloat()`](#numberisfloat)
     - [`number.isNumber()`](#numberisnumber)
 
-_Note: the following methods are inherited bty all validators_
-#### required()
+**Note: the any.\* methods are available to _all_ the validators**
+
+### any()
+Accept any data format
+```php
+$schema = cmf()->any();
+```
+
+#### any.required()
 Validates the data element is not null
 ```php
 $schema = cmf()->string()->required();
 ```
-#### alternatives($alternatives)
+#### any.alternatives($alternatives)
 Creates conditional validation or values
 ```php
 $schema = cmf()->string()->alternatives([
@@ -50,11 +62,15 @@ $schema = cmf()->string()->alternatives([
     ],
 ]);
 ```
-#### anyOf($values)
+#### any.anyOf($values)
 Validates given value is part of provided `$values` array
 ```php
 $schema = cmf()->string()->anyOf($stateAbbrCodes);
 ```
+
+### any.map($mapper)
+Transforms data according to mapper. If a key-value array supplied, the value is checked
+ against the array keys and resulting value used. If callable, the result of said callable is used.
 
 #### string()
 Validates data is a string
