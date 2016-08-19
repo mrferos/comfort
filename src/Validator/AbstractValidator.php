@@ -7,6 +7,7 @@ use Comfort\Exception\DiscomfortException;
 use Comfort\Exception\ValidationException;
 use Comfort\ValidationError;
 use Comfort\Validator\Helper\AlternativesTrait;
+use Comfort\Validator\Helper\ExecutorTrait;
 
 /**
  * Class AbstractValidator
@@ -15,6 +16,7 @@ use Comfort\Validator\Helper\AlternativesTrait;
 abstract class AbstractValidator
 {
     use AlternativesTrait;
+    use ExecutorTrait;
 
     /**
      * @var \Closure[]
@@ -64,36 +66,7 @@ abstract class AbstractValidator
      */
     public function __invoke($value, $key = null)
     {
-        if (is_null($value) && $this->optional) {
-            if (is_null($this->defaultValue)) {
-                return null;
-            } else {
-                $value = $this->defaultValue;
-            }
-        }
-
-        try {
-            reset($this->validationStack);
-
-            do {
-                /** @var callable $validator */
-                $validator = current($this->validationStack);
-                $retVal = $validator($value, $key);
-                $value = $retVal === null ? $value : $retVal;
-            } while (next($this->validationStack));
-
-            if ($this->toBool) {
-                return true;
-            }
-
-            return $value;
-        } catch (ValidationException $validationException) {
-            if ($this->toBool) {
-                return false;
-            }
-
-            return ValidationError::fromException($validationException);
-        }
+        return $this->validate($value, $key);
     }
 
     public function __call($name, $arguments)
