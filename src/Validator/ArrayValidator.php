@@ -153,7 +153,11 @@ class ArrayValidator extends AbstractValidator
                 if ($resp instanceof ValidationError) {
                     return $resp;
                 }
+
+                $value[$key] = empty($resp) ? $val : $resp;
             }
+
+            return $value;
         });
 
         return $this;
