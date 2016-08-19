@@ -40,6 +40,12 @@
 
 **Note: the any.\* methods are available to _all_ the validators**
 
+### any()
+Accept any data format
+```php
+$schema = cmf()->any();
+```
+
 #### any.required()
 Validates the data element is not null
 ```php
