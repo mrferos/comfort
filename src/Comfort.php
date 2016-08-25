@@ -4,6 +4,7 @@ namespace Comfort;
 use Comfort\Validator\AbstractValidator;
 use Comfort\Validator\AnyValidator;
 use Comfort\Validator\ArrayValidator;
+use Comfort\Validator\DateValidator;
 use Comfort\Validator\JsonValidator;
 use Comfort\Validator\NumberValidator;
 use Comfort\Validator\StringValidator;
@@ -16,6 +17,7 @@ use Comfort\Validator\StringValidator;
  * @method JsonValidator json()
  * @method NumberValidator number()
  * @method AnyValidator any()
+ * @method DateValidator date()
  */
 class Comfort
 {
@@ -31,7 +33,7 @@ class Comfort
      *
      * @param $name
      * @param $arguments
-     * @return ArrayValidator|JsonValidator|StringValidator|AnyValidator
+     * @return ArrayValidator|JsonValidator|StringValidator|AnyValidator|DateValidator
      * @throws \RuntimeException
      */
     public function __call($name, $arguments)
