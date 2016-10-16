@@ -15,8 +15,10 @@ trait ExecutorTrait
      */
     protected function validate($value, $key = null)
     {
-        if (is_null($value) && $this->optional) {
-            if (is_null($this->defaultValue)) {
+        $executor = clone $this;
+
+        if (is_null($value) && $executor->optional) {
+            if (is_null($executor->defaultValue)) {
                 return null;
             } else {
                 $value = $this->defaultValue;
@@ -24,22 +26,22 @@ trait ExecutorTrait
         }
 
         try {
-            reset($this->validationStack);
+            reset($executor->validationStack);
 
             do {
                 /** @var callable $validator */
-                $validator = current($this->validationStack);
+                $validator = current($executor->validationStack);
                 $retVal = $validator($value, $key);
                 $value = $retVal === null ? $value : $retVal;
-            } while (next($this->validationStack));
+            } while (next($executor->validationStack));
 
-            if ($this->toBool) {
+            if ($executor->toBool) {
                 return true;
             }
 
             return $value;
         } catch (ValidationException $validationException) {
-            if ($this->toBool) {
+            if ($executor->toBool) {
                 return false;
             }
 
