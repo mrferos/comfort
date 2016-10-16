@@ -503,4 +503,37 @@ class StringValidatorTest extends \PHPUnit_Framework_TestCase
         $result = $this->stringValidator->__invoke('present');
         $this->assertEquals('returned-value', $result);
     }
+
+    public function getCreditCardNumbers()
+    {
+        return [
+            ['378282246310005'],
+            ['371449635398431'],
+            ['378734493671000'],
+            ['5610591081018250'],
+            ['30569309025904'],
+            ['38520000023237'],
+            ['6011111111111117'],
+            ['6011000990139424'],
+        ];
+    }
+
+    /**
+     * @dataProvider getCreditCardNumbers
+     */
+    public function testIsCreditCard($creditCard)
+    {
+        $this->stringValidator->creditCard();
+        $this->assertTrue(
+            $this->stringValidator->__invoke($creditCard)
+        );
+    }
+
+    public function testCreditCardOnInvalidValue()
+    {
+        $this->stringValidator->creditCard();
+        $this->assertFalse(
+            $this->stringValidator->__invoke('rawr')
+        );
+    }
 }
