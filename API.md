@@ -18,6 +18,7 @@
     - [`string.ip()`](#stringip)
     - [`string.uri($options)`](#stringurioptions)
     - [`string.replace($pattern, $replacement)`](#stringreplacepattern-replacement)
+    - [`string.creditCard()`](#stringcreditcard)
 - [`date`](#date)
     - [`date.iso()`](#dateiso)
     - [`date.format($format)`](#dateformatformat)
@@ -136,6 +137,11 @@ $schema = cmf()->string()->uri($options);
 Replace matched portion of string
 ```php
 $schema = cmf()->string()->replace('/\d+/', 'foo');
+```
+#### string.creditCard()
+Validate value is a credit card
+```php
+$schema = cmf()->string()->creditCard();
 ```
 #### date()
 Validates data is a date

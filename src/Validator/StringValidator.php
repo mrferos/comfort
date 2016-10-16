@@ -175,6 +175,31 @@ class StringValidator extends AbstractValidator
     }
 
     /**
+     * Validate the number is a valid credit card
+     *
+     * @return $this
+     */
+    public function creditCard()
+    {
+        return $this->add(function ($value, $nameKey) {
+            $i = strlen($value);
+            $sum = 0;
+            $mul = 1;
+
+            while ($i--) {
+                $char = $value[$i] * $mul;
+                $sum = $sum + ($char - ($char > 9) * 9);
+                $mul = $mul ^ 3;
+            }
+
+            $check = ($sum % 10 === 0) && ($sum > 0);
+            if (!$check) {
+                return $this->createError('string.credit-card', $value, $nameKey);
+            }
+        });
+    }
+
+    /**
      * Validate the string is an IP
      *
      * @return $this
