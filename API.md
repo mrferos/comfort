@@ -5,6 +5,7 @@
     - [`any.alternatives($alternatives)`](#anyalternativesalternatives)
     - [`any.anyOf($values)`](#anyanyofvalues)
     - [`any.map($mapper)`](#anymapmapper)
+    - [`any.invalid($values)`](#anyinvalidvalues)
 - [`string`](#string)
 	- [`string.token()`](#stringtoken)
     - [`string.min($min)`](#stringminmin)
@@ -40,7 +41,7 @@
 
 **Note: the any.\* methods are available to _all_ the validators**
 
-### any()
+##### any()
 Accept any data format
 ```php
 $schema = cmf()->any();
@@ -68,9 +69,18 @@ Validates given value is part of provided `$values` array
 $schema = cmf()->string()->anyOf($stateAbbrCodes);
 ```
 
-### any.map($mapper)
+#### any.map($mapper)
 Transforms data according to mapper. If a key-value array supplied, the value is checked
  against the array keys and resulting value used. If callable, the result of said callable is used.
+
+#### any.invalid($values)
+Insure supplied value is not in $values
+```php
+$schema = cmf()->any()->invalid([
+    'invalid',
+    'values'
+]);
+```
 
 #### string()
 Validates data is a string
