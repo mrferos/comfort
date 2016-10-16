@@ -137,6 +137,21 @@ abstract class AbstractValidator
     }
 
     /**
+     * Validate given value is _not_ in $vals
+     *
+     * @param array $vals
+     * @return AbstractValidator
+     */
+    public function invalid(array $vals)
+    {
+        return $this->add(function ($value, $nameKey) use ($vals) {
+            if (in_array($value, $vals)) {
+                return $this->createError('invalid', $value, $nameKey);
+            }
+        });
+    }
+
+    /**
      * Map value to key in array and grab associated array value, or
      * feed value into callable and use returned value
      *
