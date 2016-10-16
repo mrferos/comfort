@@ -366,6 +366,95 @@ class StringValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($elseVal, $result);
     }
 
+    public function testAlternativesOrMalformedConditionError()
+    {
+        $this->stringValidator->toBool(false);
+        $this->stringValidator->alternatives(false, false);
+        $results = $this->stringValidator->__invoke('test');
+        $this->assertInstanceOf(ValidationError::class, $results);
+        $this->assertEquals('alternatives.malformed_condition', $results->getKey());
+    }
+
+    public function testAlternativesOrNoneMatch()
+    {
+        $valErrorMock =$this->getMockBuilder(ValidationError::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $alternative1 = $this->getMockBuilder(AbstractValidator::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $alternative2 = $this->getMockBuilder(AbstractValidator::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $alternative3 = $this->getMockBuilder(AbstractValidator::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $alternative1->method('__invoke')
+            ->willReturn($valErrorMock);
+
+        $alternative2->method('__invoke')
+            ->willReturn($valErrorMock);
+
+        $alternative3->method('__invoke')
+            ->willReturn($valErrorMock);
+
+
+        $this->stringValidator->toBool(false);
+        $this->stringValidator->alternatives(
+            $alternative1,
+            $alternative2,
+            $alternative3
+        );
+
+        $results = $this->stringValidator->__invoke("test");
+        $this->assertInstanceOf(ValidationError::class, $results);
+        $this->assertEquals('alternatives.failed_or', $results->getKey());
+    }
+
+    public function testAlternativesOrAtleastOneMatch()
+    {
+        $testVal = "test";
+
+        $valErrorMock =$this->getMockBuilder(ValidationError::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $alternative1 = $this->getMockBuilder(AbstractValidator::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $alternative2 = $this->getMockBuilder(AbstractValidator::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $alternative3 = $this->getMockBuilder(AbstractValidator::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $alternative1->method('__invoke')
+            ->willReturn($testVal);
+
+        $alternative2->method('__invoke')
+            ->willReturn($valErrorMock);
+
+        $alternative3->method('__invoke')
+            ->willReturn($valErrorMock);
+
+
+        $this->stringValidator->alternatives(
+            $alternative1,
+            $alternative2,
+            $alternative3
+        );
+
+        $this->stringValidator->toBool(false);
+        $results = $this->stringValidator->__invoke($testVal);
+        $this->assertEquals($testVal, $results);
+    }
+
     public function testValueInAnyOf()
     {
         $this->stringValidator->anyOf(['these', 'are', 'values']);
